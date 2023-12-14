@@ -14,16 +14,3 @@ for slot in row:
         count = 0
         flag = False
 print(count)
-
-
-#     if slot == cur_player and count == 0 and not flag:
-#         count = count + 1
-#         flag = True
-#     elif slot == cur_player and flag:
-#         count = count + 1
-#         if count == 5:
-#             return True
-#         else:
-#             count = 0
-#         flag = False
-# print(count)
