@@ -1,20 +1,30 @@
-# board = [
-#     [".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "."], 
-#     [".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "."],
-#     [".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "."],
-#     [".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "."],
-#     [".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "."],
-#     [".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "."], 
-#     [".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "."],
-#     [".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "."],
-#     [".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "."],
-#     [".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "."],
-#     [".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "."], 
-#     [".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "."],
-#     [".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "."],
-#     [".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "."],
-#     [".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "."]
-# ]
+from string import ascii_lowercase
+
+class Board:
+    def __init__(self, boardSize = 15):
+        self.boardSize = boardSize
+        #board = [["."] * size] * size
+        self.boardMatrix = [["." for i in range(boardSize)] for j in range(boardSize)]
+
+    def __str__(self):
+        boardMatrixString = ""
+        boardMatrixString += "   "
+        for c in ascii_lowercase[:self.boardSize]:
+            boardMatrixString += c + " "
+        boardMatrixString += "\n"
+        i = 1
+        for row in self.boardMatrix:
+            if(i >= 1 and i < 10):
+                boardMatrixString += str(i) + "  "
+            else:
+                boardMatrixString += str(i) + " "
+            i = i + 1
+            for slot in row:
+                boardMatrixString += slot + " "
+            boardMatrixString += "\n"
+        return boardMatrixString
+
+        
 
 def get_board_size():
     while True:
@@ -24,31 +34,9 @@ def get_board_size():
             pass
 
 size = get_board_size()
-
-
-# see how it works
-board = [["." for i in range(size)] for j in range(size)]
-# board = [["."] * size] * size
-
-numeration = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O"]
+board = Board(size)
 
 player = True
-
-def print_board():
-    print("", end = "   ")
-    for num in numeration:
-        print(num, end = " ")
-    print()
-    i = 1
-    for row in board:
-        if(i >= 1 and i < 10):
-            print(i, end = "  ")
-        else:
-            print(i, end = " ")
-        i = i + 1
-        for slot in row:
-            print(slot, end = " ")
-        print()
     
 def exit_game(user_input):
     if user_input.lower() == 'q':
@@ -63,7 +51,7 @@ def check_input(user_input):
         return False
     elif len(user_input) == 3 and not str(user_input[1] + user_input[2]).isnumeric():
         return False
-    elif str(user_input[0]).upper() not in numeration:
+    elif str(user_input[0]).upper() not in ascii_lowercase:
         return False
     else:
         return True
@@ -118,7 +106,7 @@ def check_row(cur_player, board):
 
 while True:
     curr_player = current_player(player)
-    print_board()
+    print(board)
     user_input = input("Place your stone or enter q to exit: ")
     if exit_game(user_input): 
         break
@@ -130,7 +118,7 @@ while True:
         print("The slot is taken. Try again!")
         continue
     add_to_board(coords, board, curr_player)
-    print_board()
+    print(board)
     if is_winner(curr_player, board):
         print(curr_player + ", congratulations! You won!")
     print("________________________________")
